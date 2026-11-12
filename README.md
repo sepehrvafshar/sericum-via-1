@@ -1,5 +1,7 @@
 # The Sericum Via 1
 
+**Play:** https://sericumvia1.sepafshar.com
+
 *Journey along the Silk Road.* Part 1 of the Sericum Via series: a text-based serious game about the Safavid caravanserais on Iran's Silk Roads, made with Twine (Harlowe 3.1) in 2020.
 
 **Paper:** Eshaghi, S., Vaez Afshar, S. & Varinlioğlu, G. (2021). *The Sericum Via: A Serious Game for Preserving Tangible and Intangible Heritage of Iran.* ASCAAD 2021, Cairo (online), pp. 306–316. **Best Presentation Award.** [CumInCAD](https://papers.cumincad.org/cgi-bin/works/Show?ascaad2021_124)
@@ -46,7 +48,7 @@ This needs only Python 3. There are two ways to change the game:
 
 ## Deploy
 
-The repo is connected to Cloudflare Pages: every push to `main` redeploys the site. Pages settings:
+Live at **https://sericumvia1.sepafshar.com** (also https://sericum-via-1.pages.dev). The repo is connected to Cloudflare Pages: every push to `main` redeploys the site. Pages settings:
 
 - Framework preset: None
 - Build command: none
