@@ -80,11 +80,23 @@ tw-passage a { color: darkblue; transition: color .5s ease-in-out; }
 tw-passage a:hover { color: orange; }
 tw-link, .enchantment-link { cursor: pointer; }
 tw-link:focus-visible { outline: 2px dashed orange; outline-offset: 3px; }
-/* Back button */
-.sv-back { display: table; margin: 0 0 10px; padding: 6px 12px 5px; font: inherit; font-size: 0.7em; line-height: 1.4;
+/* Home + Back toolbar, pulled up close to the top edge of the box */
+.sv-bar { display: flex; gap: 8px; align-items: center; margin: -10px 0 8px -8px; min-height: 0; }
+.sv-bar:not(:has(tw-link, .sv-back)) { display: none; }
+.sv-bar + br { display: none; }
+.sv-back, .sv-bar tw-link { display: inline-block; margin: 0; padding: 5px 11px 4px; font: inherit; font-size: 0.7em; line-height: 1.4;
   color: darkblue; background: rgba(255,255,255,0.8); border: 3px groove gray; border-radius: 14px; cursor: pointer;
   text-shadow: none; transition: color .3s ease-in-out, border-color .3s ease-in-out; }
-.sv-back:hover, .sv-back:focus-visible { color: orange; border-color: orange; outline: none; }
+.sv-back:hover, .sv-back:focus-visible, .sv-bar tw-link:hover, .sv-bar tw-link:focus-visible { color: orange; border-color: orange; outline: none; }
+/* About page: small text in separate cards */
+.sv-about { font-size: 0.72em; line-height: 1.75; text-shadow: none; }
+.sv-card { background: rgba(255,255,255,0.75); border: 2px groove gray; border-radius: 14px; padding: 10px 14px; margin: 0 0 10px; }
+.sv-h { color: darkgreen; text-shadow: 1px 1px lightgreen; font-size: 1.15em; margin-bottom: 6px; }
+.sv-dim { color: gray; margin-top: 6px; }
+.sv-award { color: #b8860b; margin-top: 6px; }
+.sv-ext { display: inline-block; margin-top: 4px; }
+.sv-row { margin: 4px 0; }
+.sv-k { display: block; color: gray; font-size: 0.85em; }
 @media (max-width: 700px) {
   tw-story { padding: 12px 10px; font-size: 12px; }
   tw-passage { padding: 14px; border-width: 3px; border-radius: 16px; }
@@ -93,7 +105,8 @@ tw-link:focus-visible { outline: 2px dashed orange; outline-offset: 3px; }
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 /* Preservation edition: keyboard shortcuts + scroll to top on each new passage */
 (function () {
-  function links() { return Array.prototype.slice.call(document.querySelectorAll('tw-passage tw-link')); }
+  /* story choices only (the Home button in the toolbar is not a numbered choice) */
+  function links() { return Array.prototype.slice.call(document.querySelectorAll('tw-passage tw-link')).filter(function (l) { return !l.closest('.sv-bar'); }); }
   function undoIcon() { return document.querySelector('tw-passage tw-icon.undo'); }
   function canGoBack() { var u = undoIcon(); return !!u && u.style.visibility !== 'hidden'; }
   function goBack() { if (canGoBack()) undoIcon().click(); }
@@ -104,8 +117,13 @@ tw-link:focus-visible { outline: 2px dashed orange; outline-offset: 3px; }
     b.type = 'button'; b.className = 'sv-back'; b.title = 'Back (Esc)';
     b.textContent = '◀ Back';
     b.addEventListener('click', goBack);
-    var side = p.querySelector('tw-sidebar');
-    p.insertBefore(b, side ? side.nextSibling : p.firstChild);
+    var bar = p.querySelector('.sv-bar');
+    if (!bar) {
+      bar = document.createElement('div'); bar.className = 'sv-bar';
+      var side = p.querySelector('tw-sidebar');
+      p.insertBefore(bar, side ? side.nextSibling : p.firstChild);
+    }
+    bar.appendChild(b);  /* Back goes to the right of Home */
   }
   /* Grow pictures into the empty space below the passage (pixel art up to 3x, photos up to 1.6x, at most 55% of the screen),
      without making the page scroll; never shrink below a readable size. */
@@ -424,18 +442,7 @@ You have a long and difficult journey ahead of you.
 (if: $coin &lt; 401 ) [You can&#x27;t shop anymore! you should have at least 100 coins to continue!]
 [[Checkout and continue|!]]
 
-</tw-passagedata><tw-passagedata pid="36" name="!" tags="" position="402,1701" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="37" name="Learn1.1" tags="" position="499,196" size="100,100">The main duty of the player in this game is to deliver cargoes of silk from Iran to a neighboring country on the Silk Road within a limited time. The game lets the player choose the season they want to play in and prepare for the journey by doing the necessary shopping. As a bonus, the player is also provided with the shortest possible routes for the journey, calculated beforehand with GIS for path selection.
-
-----
-&#x27;&#x27;Paper&#x27;&#x27;
-Eshaghi, S., Vaez Afshar, S. &amp; Varinlioğlu, G. (2021). //The Sericum Via: A Serious Game for Preserving Tangible and Intangible Heritage of Iran.// ASCAAD 2021, Cairo (online), pp. 306–316. &#x27;&#x27;Best Presentation Award.&#x27;&#x27;
-&lt;a href=&quot;https://papers.cumincad.org/cgi-bin/works/Show?ascaad2021_124&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Read the paper on CumInCAD&lt;/a&gt;
-
-&#x27;&#x27;Team&#x27;&#x27;
-Game design &amp; development: Sepehr Vaez Afshar &amp; Sarvin Eshaghi
-Co-author: Assoc. Prof. Dr. Güzden Varinlioğlu
-Made in the Architectural Design Computing PhD program, Istanbul Technical University (2020).
-
+</tw-passagedata><tw-passagedata pid="36" name="!" tags="" position="402,1701" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="37" name="Learn1.1" tags="" position="499,196" size="100,100">&lt;div class=&quot;sv-about&quot;&gt;&lt;div class=&quot;sv-card&quot;&gt;&lt;div class=&quot;sv-h&quot;&gt;How to play&lt;/div&gt;Deliver cargoes of silk from Iran to a neighboring country on the Silk Road within a limited time. Choose your season, shop for the journey, and use the shortest routes calculated with GIS as a bonus.&lt;div class=&quot;sv-dim&quot;&gt;Alpha version: playable but incomplete.&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;sv-card&quot;&gt;&lt;div class=&quot;sv-h&quot;&gt;Paper&lt;/div&gt;Eshaghi, S., Vaez Afshar, S. &amp;amp; Varinlioğlu, G. (2021). &lt;i&gt;The Sericum Via: A Serious Game for Preserving Tangible and Intangible Heritage of Iran.&lt;/i&gt; ASCAAD 2021, Cairo (online), pp. 306–316.&lt;div class=&quot;sv-award&quot;&gt;★ Best Presentation Award&lt;/div&gt;&lt;a class=&quot;sv-ext&quot; href=&quot;https://papers.cumincad.org/cgi-bin/works/Show?ascaad2021_124&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Read the paper on CumInCAD&lt;/a&gt;&lt;/div&gt;&lt;div class=&quot;sv-card&quot;&gt;&lt;div class=&quot;sv-h&quot;&gt;Team&lt;/div&gt;&lt;div class=&quot;sv-row&quot;&gt;&lt;span class=&quot;sv-k&quot;&gt;Design &amp;amp; development&lt;/span&gt;Sepehr Vaez Afshar &amp;amp; Sarvin Eshaghi&lt;/div&gt;&lt;div class=&quot;sv-row&quot;&gt;&lt;span class=&quot;sv-k&quot;&gt;Co-author&lt;/span&gt;Assoc. Prof. Dr. Güzden Varinlioğlu&lt;/div&gt;&lt;div class=&quot;sv-row&quot;&gt;&lt;span class=&quot;sv-k&quot;&gt;Made at&lt;/span&gt;Architectural Design Computing PhD program, Istanbul Technical University, 2020&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
 [[Start the new game|Stage1]]
 
 [[Back to Main menu|Welcome to Sericum Via]]</tw-passagedata><tw-passagedata pid="38" name="c1.3" tags="" position="2097,2798" size="100,100">(set: $food to $food - 1) $coin coins | $food food packages | $saffron saffron packages | $health health | $gamedayTurkeyHard days left
@@ -618,7 +625,7 @@ You may:(set: $TP to 1)
 [[Trade with local people|Trade with local people]]
 [[Talk to people|Talk to people]]
 [[Stop to rest|Stop to rest]]
-[[Change pace|Change pace]]</tw-passagedata><tw-passagedata pid="79" name="Talk to people" tags="" position="3336,1300" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="80" name="Stop to rest" tags="" position="3486,1300" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="81" name="Change pace" tags="" position="3636,1300" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="82" name="Continue|" tags="" position="1420,2900" size="100,100">Double-click this passage to edit it.</tw-passagedata></tw-storydata>
+[[Change pace|Change pace]]</tw-passagedata><tw-passagedata pid="79" name="Talk to people" tags="" position="3336,1300" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="80" name="Stop to rest" tags="" position="3486,1300" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="81" name="Change pace" tags="" position="3636,1300" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="82" name="Continue|" tags="" position="1420,2900" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="900" name="SV Header" tags="header" position="100,100" size="100,100">&lt;div class=&quot;sv-bar&quot;&gt;(unless: (passage:)&#x27;s name is &quot;Welcome to Sericum Via&quot;)[[[⌂ Home-&gt;Welcome to Sericum Via]]]&lt;/div&gt;</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _defineProperty(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function _toConsumableArray(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t];return n}return Array.from(e)}var _slicedToArray=function(){function e(e,t){var n=[],r=!0,i=!1,o=void 0;try{for(var a,s=e[Symbol.iterator]();!(r=(a=s.next()).done)&&(n.push(a.value),!t||n.length!==t);r=!0);}catch(e){i=!0,o=e}finally{try{!r&&s.return&&s.return()}finally{if(i)throw o}}return n}return function(t,n){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,n);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};!function(){/**
  * @license almond 0.3.3 Copyright jQuery Foundation and other contributors.

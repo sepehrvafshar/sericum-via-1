@@ -16,18 +16,28 @@ The //Sericum Via// developed by: Sepehr Vaez Afshar & Sarvin Eshaghi
 Drweeb.com/Sericumvia
 '''
 
-NEW = '''The main duty of the player in this game is to deliver cargoes of silk from Iran to a neighboring country on the Silk Road within a limited time. The game lets the player choose the season they want to play in and prepare for the journey by doing the necessary shopping. As a bonus, the player is also provided with the shortest possible routes for the journey, calculated beforehand with GIS for path selection.
+# About page as small, separated cards (styled by .sv-about / .sv-card in ux.py).
+# Kept on few lines on purpose: Harlowe turns every newline into a line break.
+NEW = ('<div class="sv-about">'
+       '<div class="sv-card"><div class="sv-h">How to play</div>'
+       'Deliver cargoes of silk from Iran to a neighboring country on the Silk Road within a limited time. '
+       'Choose your season, shop for the journey, and use the shortest routes calculated with GIS as a bonus.'
+       '<div class="sv-dim">Alpha version: playable but incomplete.</div></div>'
+       '<div class="sv-card"><div class="sv-h">Paper</div>'
+       'Eshaghi, S., Vaez Afshar, S. &amp; Varinlioğlu, G. (2021). '
+       '<i>The Sericum Via: A Serious Game for Preserving Tangible and Intangible Heritage of Iran.</i> '
+       'ASCAAD 2021, Cairo (online), pp. 306–316.'
+       '<div class="sv-award">★ Best Presentation Award</div>'
+       '<a class="sv-ext" href="https://papers.cumincad.org/cgi-bin/works/Show?ascaad2021_124" target="_blank" rel="noopener">Read the paper on CumInCAD</a></div>'
+       '<div class="sv-card"><div class="sv-h">Team</div>'
+       '<div class="sv-row"><span class="sv-k">Design &amp; development</span>Sepehr Vaez Afshar &amp; Sarvin Eshaghi</div>'
+       '<div class="sv-row"><span class="sv-k">Co-author</span>Assoc. Prof. Dr. Güzden Varinlioğlu</div>'
+       '<div class="sv-row"><span class="sv-k">Made at</span>Architectural Design Computing PhD program, Istanbul Technical University, 2020</div>'
+       '</div></div>')
 
-----
-''Paper''
-Eshaghi, S., Vaez Afshar, S. & Varinlioğlu, G. (2021). //The Sericum Via: A Serious Game for Preserving Tangible and Intangible Heritage of Iran.// ASCAAD 2021, Cairo (online), pp. 306–316. ''Best Presentation Award.''
-<a href="https://papers.cumincad.org/cgi-bin/works/Show?ascaad2021_124" target="_blank" rel="noopener">Read the paper on CumInCAD</a>
-
-''Team''
-Game design & development: Sepehr Vaez Afshar & Sarvin Eshaghi
-Co-author: Assoc. Prof. Dr. Güzden Varinlioğlu
-Made in the Architectural Design Computing PhD program, Istanbul Technical University (2020).
-'''
+# Every page gets a header with a Home button (the script in ux.py adds Back next to it).
+HEADER = ('<div class="sv-bar">(unless: (passage:)\'s name is "Welcome to Sericum Via")'
+          '[[[⌂ Home->Welcome to Sericum Via]]]</div>')
 
 # Main menu note, shortened
 NOTE_OLD = '''Note: This is the Alpha version!
@@ -53,5 +63,12 @@ text, n = re.subn(r'Note: This is the Alpha version!.*?Eshaghi</p>', lambda _: N
 assert n == 1, 'menu note not found'
 text = text.replace(MENU_OLD, MENU_NEW)
 src = src[:m.start(2)] + html.escape(text, quote=True) + src[m.end(2):]
+
+# Header passage (Harlowe shows passages tagged "header" at the top of every passage)
+assert 'name="SV Header"' not in src
+header_pd = ('<tw-passagedata pid="900" name="SV Header" tags="header" position="100,100" size="100,100">'
+             + html.escape(HEADER, quote=True) + '</tw-passagedata>')
+i = src.index('</tw-storydata>')
+src = src[:i] + header_pd + src[i:]
 open(path, 'w', encoding='utf-8').write(src)
 print('about page + menu updated')

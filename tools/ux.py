@@ -51,11 +51,23 @@ tw-passage a { color: darkblue; transition: color .5s ease-in-out; }
 tw-passage a:hover { color: orange; }
 tw-link, .enchantment-link { cursor: pointer; }
 tw-link:focus-visible { outline: 2px dashed orange; outline-offset: 3px; }
-/* Back button */
-.sv-back { display: table; margin: 0 0 10px; padding: 6px 12px 5px; font: inherit; font-size: 0.7em; line-height: 1.4;
+/* Home + Back toolbar, pulled up close to the top edge of the box */
+.sv-bar { display: flex; gap: 8px; align-items: center; margin: -10px 0 8px -8px; min-height: 0; }
+.sv-bar:not(:has(tw-link, .sv-back)) { display: none; }
+.sv-bar + br { display: none; }
+.sv-back, .sv-bar tw-link { display: inline-block; margin: 0; padding: 5px 11px 4px; font: inherit; font-size: 0.7em; line-height: 1.4;
   color: darkblue; background: rgba(255,255,255,0.8); border: 3px groove gray; border-radius: 14px; cursor: pointer;
   text-shadow: none; transition: color .3s ease-in-out, border-color .3s ease-in-out; }
-.sv-back:hover, .sv-back:focus-visible { color: orange; border-color: orange; outline: none; }
+.sv-back:hover, .sv-back:focus-visible, .sv-bar tw-link:hover, .sv-bar tw-link:focus-visible { color: orange; border-color: orange; outline: none; }
+/* About page: small text in separate cards */
+.sv-about { font-size: 0.72em; line-height: 1.75; text-shadow: none; }
+.sv-card { background: rgba(255,255,255,0.75); border: 2px groove gray; border-radius: 14px; padding: 10px 14px; margin: 0 0 10px; }
+.sv-h { color: darkgreen; text-shadow: 1px 1px lightgreen; font-size: 1.15em; margin-bottom: 6px; }
+.sv-dim { color: gray; margin-top: 6px; }
+.sv-award { color: #b8860b; margin-top: 6px; }
+.sv-ext { display: inline-block; margin-top: 4px; }
+.sv-row { margin: 4px 0; }
+.sv-k { display: block; color: gray; font-size: 0.85em; }
 @media (max-width: 700px) {
   tw-story { padding: 12px 10px; font-size: 12px; }
   tw-passage { padding: 14px; border-width: 3px; border-radius: 16px; }
@@ -69,7 +81,8 @@ src = src[:j] + EXTRA_CSS + src[j + len('</style>'):]
 SCRIPT = r'''<script role="script" id="twine-user-script" type="text/twine-javascript">
 /* Preservation edition: keyboard shortcuts + scroll to top on each new passage */
 (function () {
-  function links() { return Array.prototype.slice.call(document.querySelectorAll('tw-passage tw-link')); }
+  /* story choices only (the Home button in the toolbar is not a numbered choice) */
+  function links() { return Array.prototype.slice.call(document.querySelectorAll('tw-passage tw-link')).filter(function (l) { return !l.closest('.sv-bar'); }); }
   function undoIcon() { return document.querySelector('tw-passage tw-icon.undo'); }
   function canGoBack() { var u = undoIcon(); return !!u && u.style.visibility !== 'hidden'; }
   function goBack() { if (canGoBack()) undoIcon().click(); }
@@ -80,8 +93,13 @@ SCRIPT = r'''<script role="script" id="twine-user-script" type="text/twine-javas
     b.type = 'button'; b.className = 'sv-back'; b.title = 'Back (Esc)';
     b.textContent = '◀ Back';
     b.addEventListener('click', goBack);
-    var side = p.querySelector('tw-sidebar');
-    p.insertBefore(b, side ? side.nextSibling : p.firstChild);
+    var bar = p.querySelector('.sv-bar');
+    if (!bar) {
+      bar = document.createElement('div'); bar.className = 'sv-bar';
+      var side = p.querySelector('tw-sidebar');
+      p.insertBefore(bar, side ? side.nextSibling : p.firstChild);
+    }
+    bar.appendChild(b);  /* Back goes to the right of Home */
   }
   /* Grow pictures into the empty space below the passage (pixel art up to 3x, photos up to 1.6x, at most 55% of the screen),
      without making the page scroll; never shrink below a readable size. */
