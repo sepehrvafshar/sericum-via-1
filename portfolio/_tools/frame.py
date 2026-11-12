@@ -100,8 +100,8 @@ def phone(shot, out, W=1080, H=1920):
     print(out, c.size, 'phone', (bw, bh), 'margins', x0, y0)
 
 
-#browser('desktop-01-climatic-zone-map.png', 'cover-1600x1000.png', 1600, 1000, 1220)
-#browser('desktop-02-season-choice.png', 'gallery-season-1200x750.png', 1200, 750, 915)
-#browser('desktop-04-map-yellow-point.png', 'gallery-journey-1200x750.png', 1200, 750, 915)
-#browser('desktop-05-ending-score.png', 'gallery-ending-1200x750.png', 1200, 750, 915)
-#phone('phone-01-season-choice.png', 'phone-1080x1920.png')
+browser('desktop-01-climatic-zone-map.png', 'cover-1600x1000.png', 1600, 1000, 1220)
+browser('desktop-02-season-choice.png', 'gallery-season-1200x750.png', 1200, 750, 915)
+browser('desktop-04-map-yellow-point.png', 'gallery-journey-1200x750.png', 1200, 750, 915)
+browser('desktop-05-ending-score.png', 'gallery-ending-1200x750.png', 1200, 750, 915)
+phone('phone-01-season-choice.png', 'phone-1080x1920.png')

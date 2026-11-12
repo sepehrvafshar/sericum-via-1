@@ -1,7 +1,7 @@
 The Sericum Via I: portfolio image capture notes
 
 Date: 2026-11-11
-Build: github.com/sepehrvafshar/sericum-via-1, commit 5f62c037c4cae7e979fbc9916e101d4af33a795e (main),
+Build: github.com/sepehrvafshar/sericum-via-1, commit 1b2548186fc034daa898ff29cf34dfd83bc7f008 (main),
        the same build deployed at https://sericumvia1.sepafshar.com
 Captured from: the site/ folder of that commit, served locally (http://localhost)
 Browser: Google Chrome, headless (new headless mode), English (en-US), no dev tools, no cursor, no scrollbars
