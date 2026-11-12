@@ -170,5 +170,73 @@ SCRIPT = r'''<script role="script" id="twine-user-script" type="text/twine-javas
 </script>'''
 src = once(src, '<script role="script" id="twine-user-script" type="text/twine-javascript"></script>', SCRIPT)
 
+# ---- Retro boot screen, shown once per browser session before the title page ----
+# Plain HTML/CSS/JS outside Harlowe, so it is on screen from the very first frame.
+BOOT_CSS = '''<style>
+#sv-boot { position: fixed; inset: 0; z-index: 9999; background: #0b0f0b; color: #39ff6a; cursor: pointer;
+  font-family: "Press Start 2P", "Courier New", monospace; font-size: 13px; line-height: 2.1;
+  display: flex; align-items: center; justify-content: center; transition: opacity .6s ease-out; }
+#sv-boot.sv-done { opacity: 0; pointer-events: none; }
+#sv-boot .sv-crt { width: min(680px, 92vw); text-shadow: 0 0 6px rgba(57,255,106,.55); }
+#sv-boot .sv-title { color: #c6ffd4; margin-bottom: 18px; }
+#sv-boot .sv-line { white-space: pre-wrap; }
+#sv-boot .sv-ok { color: #c6ffd4; }
+#sv-boot .sv-barbox { margin-top: 16px; }
+#sv-boot .sv-skip { margin-top: 22px; color: #1f8f3d; font-size: 10px; }
+#sv-boot .sv-cur { display: inline-block; width: .7em; background: #39ff6a; animation: sv-blink 1s steps(1) infinite; }
+@keyframes sv-blink { 50% { opacity: 0; } }
+#sv-boot::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(rgba(0,0,0,0) 0 2px, rgba(0,0,0,.22) 2px 3px); }
+@media (max-width: 700px) { #sv-boot { font-size: 9px; } }
+</style>
+'''
+BOOT_HTML = r'''<div id="sv-boot" role="status" aria-label="Loading The Sericum Via">
+<div class="sv-crt"><div class="sv-title">THE SERICUM VIA 1 &middot; 2020</div><div id="sv-lines"></div>
+<div class="sv-barbox" id="sv-bar"></div><div class="sv-skip">click or press any key to skip</div></div></div>
+<script>
+(function () {
+  var box = document.getElementById('sv-boot');
+  var seen = false; try { seen = sessionStorage.getItem('sv-booted') === '1'; } catch (e) {}
+  if (seen) { box.parentNode.removeChild(box); return; }
+  var lines = document.getElementById('sv-lines'), bar = document.getElementById('sv-bar');
+  var steps = [
+    ['C:\\SERICUM> boot twine (harlowe 3.1)', 'OK'],
+    ['retrieving caravanserai data', '104 found'],
+    ['reading climatic zones of iran', '4 zones'],
+    ['mapping silk road routes (GIS)', 'OK'],
+    ['saddling the camels', 'OK'],
+    ['packing saffron & turquoise', 'OK'],
+    ['bribing the robbers', 'FAILED'],
+    ['starting journey', '']
+  ];
+  var i = 0, timer, finished = false;
+  function setBar(p) {
+    var n = 20, f = Math.round(p * n);
+    bar.textContent = '[' + new Array(f + 1).join('\u2588') + new Array(n - f + 1).join('.') + '] ' + Math.round(p * 100) + '%';
+  }
+  function finish() {
+    if (finished) return; finished = true; clearTimeout(timer); setBar(1);
+    try { sessionStorage.setItem('sv-booted', '1'); } catch (e) {}
+    box.classList.add('sv-done');
+    setTimeout(function () { if (box.parentNode) box.parentNode.removeChild(box); }, 700);
+  }
+  function step() {
+    if (i >= steps.length) { timer = setTimeout(finish, 450); return; }
+    var s = steps[i++], d = document.createElement('div'); d.className = 'sv-line';
+    d.textContent = (i > 1 ? '> ' : '') + s[0] + (s[1] ? ' ... ' : ' ');
+    if (s[1]) { var ok = document.createElement('span'); ok.className = 'sv-ok'; ok.textContent = s[1]; d.appendChild(ok); }
+    else { var c = document.createElement('span'); c.className = 'sv-cur'; c.innerHTML = '&nbsp;'; d.appendChild(c); }
+    lines.appendChild(d); setBar(i / steps.length);
+    timer = setTimeout(step, 260 + Math.random() * 260);
+  }
+  box.addEventListener('click', finish);
+  document.addEventListener('keydown', function k(e) { if (!finished) { e.preventDefault(); e.stopImmediatePropagation(); finish(); } document.removeEventListener('keydown', k, true); }, true);
+  setBar(0); timer = setTimeout(step, 250);
+})();
+</script>
+'''
+src = once(src, '</head>', BOOT_CSS + '</head>')
+src = once(src, '<body>', '<body>\n' + BOOT_HTML)
+
 open(path, 'w', encoding='utf-8').write(src)
 print('ux applied')
