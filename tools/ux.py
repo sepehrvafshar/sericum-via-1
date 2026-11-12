@@ -37,8 +37,22 @@ src = once(src, '@import url(https://fonts.googleapis.com/css?family=Press+Start
 
 EXTRA_CSS = '''
 /* ---- preservation edition: usability additions ---- */
-tw-story { line-height: 1.6em; background: #fff; background-image: none; }
-html, body { background: #fff; }
+/* ---- theme: turquoise tiles (lapis text, turquoise accents, terracotta highlights) ---- */
+html, body { background: #f4efe4; }
+tw-story { line-height: 1.6em; color: #1c2b4a; text-shadow: none; background-color: #f4efe4;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(31,111,139,.20) 0 2.5px, transparent 3.5px),
+    radial-gradient(circle at 0 0, rgba(181,101,29,.16) 0 2.5px, transparent 3.5px),
+    linear-gradient(45deg, rgba(31,111,139,.09) 25%, transparent 25%, transparent 75%, rgba(31,111,139,.09) 75%),
+    linear-gradient(45deg, rgba(31,111,139,.09) 25%, transparent 25%, transparent 75%, rgba(31,111,139,.09) 75%);
+  background-size: 36px 36px, 36px 36px, 36px 36px, 36px 36px;
+  background-position: 0 0, 18px 18px, 0 0, 18px 18px; background-attachment: fixed; }
+tw-passage { background: rgba(255,255,255,0.93); border: 3px solid #1f6f8b; border-radius: 16px;
+  box-shadow: 0 0 0 6px rgba(244,239,228,.9), 0 0 0 8px rgba(31,111,139,.35), 0 10px 30px rgba(28,43,74,.12); }
+tw-passage hr { border: 0; border-top: 2px dotted rgba(31,111,139,.45); margin: 8px 0; }
+tw-link, .enchantment-link { color: #1f6f8b; }
+tw-link:hover, .enchantment-link:hover { color: #b5651d; }
+tw-story i, tw-story em { color: #1f6f8b; }
 /* compact layout so a page fits on one screen */
 tw-story { padding: 3vh 12%; font-size: 15px; }
 tw-passage { overflow-wrap: break-word; padding: 18px 26px; }
@@ -53,8 +67,8 @@ tw-passage { animation: sv-in .45s ease-out both; }
 tw-passage img[alt="1"], tw-passage img[alt="2"], tw-passage img[alt="E"], tw-passage img[alt^="Screen-Shot"],
 tw-passage img[alt^="Ghofrani"], tw-passage img[alt="vuuranimatie2"], tw-passage img:not([alt]) { image-rendering: auto; }
 tw-passage img + br, tw-passage br:has(+ img) { display: none; }
-tw-passage a { color: darkblue; transition: color .5s ease-in-out; }
-tw-passage a:hover { color: orange; }
+tw-passage a { color: #1f6f8b; transition: color .5s ease-in-out; }
+tw-passage a:hover { color: #b5651d; }
 tw-link, .enchantment-link { cursor: pointer; }
 tw-link:focus-visible { outline: 2px dashed orange; outline-offset: 3px; }
 /* Home + Back toolbar, pulled up close to the top edge of the box */
@@ -62,16 +76,16 @@ tw-link:focus-visible { outline: 2px dashed orange; outline-offset: 3px; }
 .sv-bar:not(:has(tw-link, .sv-back)) { display: none; }
 .sv-bar + br { display: none; }
 .sv-back, .sv-bar tw-link { display: inline-block; margin: 0; padding: 5px 11px 4px; font: inherit; font-size: 0.7em; line-height: 1.4;
-  color: darkblue; background: rgba(255,255,255,0.8); border: 3px groove gray; border-radius: 14px; cursor: pointer;
+  color: #1f6f8b; background: #fff; border: 2px solid #1f6f8b; border-radius: 14px; cursor: pointer;
   text-shadow: none; transition: color .3s ease-in-out, border-color .3s ease-in-out; }
-.sv-back:hover, .sv-back:focus-visible, .sv-bar tw-link:hover, .sv-bar tw-link:focus-visible { color: orange; border-color: orange; outline: none; }
+.sv-back:hover, .sv-back:focus-visible, .sv-bar tw-link:hover, .sv-bar tw-link:focus-visible { color: #fff; background: #1f6f8b; border-color: #1f6f8b; outline: none; }
 /* About page: small text in separate cards */
 .sv-about { font-size: 0.72em; line-height: 1.75; text-shadow: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
 .sv-about > .sv-card:first-child, .sv-about > .sv-card:last-child { grid-column: 1 / -1; }
-.sv-card { background: rgba(255,255,255,0.75); border: 2px groove gray; border-radius: 14px; padding: 8px 14px; margin: 0; }
-.sv-h { color: darkgreen; text-shadow: 1px 1px lightgreen; font-size: 1.15em; margin-bottom: 6px; }
+.sv-card { background: rgba(244,239,228,0.55); border: 2px solid rgba(31,111,139,.45); border-radius: 14px; padding: 8px 14px; margin: 0; }
+.sv-h { color: #1f6f8b; font-size: 1.15em; margin-bottom: 6px; }
 .sv-dim { color: gray; margin-top: 6px; }
-.sv-award { color: #b8860b; margin-top: 6px; }
+.sv-award { color: #b5651d; margin-top: 6px; }
 .sv-ext { display: inline-block; margin-top: 4px; }
 .sv-row { margin: 4px 0; }
 .sv-k { display: block; color: gray; font-size: 0.85em; }
@@ -173,21 +187,29 @@ src = once(src, '<script role="script" id="twine-user-script" type="text/twine-j
 # ---- Retro boot screen, shown once per browser session before the title page ----
 # Plain HTML/CSS/JS outside Harlowe, so it is on screen from the very first frame.
 BOOT_CSS = '''<style>
-#sv-boot { position: fixed; inset: 0; z-index: 9999; background: #0b0f0b; color: #39ff6a; cursor: pointer;
-  font-family: "Press Start 2P", "Courier New", monospace; font-size: 13px; line-height: 2.1;
+@font-face { font-family: "Press Start 2P"; font-style: normal; font-weight: 400; font-display: block;
+  src: url(assets/fonts/PressStart2P-latin.woff2) format("woff2"); }
+#sv-boot { position: fixed; inset: 0; z-index: 9999; cursor: pointer; color: #1c2b4a; background-color: #f4efe4;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(31,111,139,.20) 0 2.5px, transparent 3.5px),
+    radial-gradient(circle at 0 0, rgba(181,101,29,.16) 0 2.5px, transparent 3.5px),
+    linear-gradient(45deg, rgba(31,111,139,.09) 25%, transparent 25%, transparent 75%, rgba(31,111,139,.09) 75%),
+    linear-gradient(45deg, rgba(31,111,139,.09) 25%, transparent 25%, transparent 75%, rgba(31,111,139,.09) 75%);
+  background-size: 36px 36px; background-position: 0 0, 18px 18px, 0 0, 18px 18px;
+  font-family: "Press Start 2P", "Courier New", monospace; font-size: 12px; line-height: 2.1;
   display: flex; align-items: center; justify-content: center; transition: opacity .6s ease-out; }
 #sv-boot.sv-done { opacity: 0; pointer-events: none; }
-#sv-boot .sv-crt { width: min(680px, 92vw); text-shadow: 0 0 6px rgba(57,255,106,.55); }
-#sv-boot .sv-title { color: #c6ffd4; margin-bottom: 18px; }
+#sv-boot .sv-crt { width: min(640px, 90vw); box-sizing: border-box; padding: 22px 26px; background: rgba(255,255,255,.95);
+  border: 3px solid #1f6f8b; border-radius: 16px;
+  box-shadow: 0 0 0 6px rgba(244,239,228,.9), 0 0 0 8px rgba(31,111,139,.35), 0 10px 30px rgba(28,43,74,.12); }
+#sv-boot .sv-title { color: #b5651d; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px dotted rgba(31,111,139,.45); }
 #sv-boot .sv-line { white-space: pre-wrap; }
-#sv-boot .sv-ok { color: #c6ffd4; }
-#sv-boot .sv-barbox { margin-top: 16px; }
-#sv-boot .sv-skip { margin-top: 22px; color: #1f8f3d; font-size: 10px; }
-#sv-boot .sv-cur { display: inline-block; width: .7em; background: #39ff6a; animation: sv-blink 1s steps(1) infinite; }
+#sv-boot .sv-ok { color: #1f6f8b; }
+#sv-boot .sv-barbox { margin-top: 14px; color: #1f6f8b; }
+#sv-boot .sv-skip { margin-top: 16px; color: #8a8f99; font-size: 9px; }
+#sv-boot .sv-cur { display: inline-block; width: .7em; background: #1f6f8b; animation: sv-blink 1s steps(1) infinite; }
 @keyframes sv-blink { 50% { opacity: 0; } }
-#sv-boot::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: repeating-linear-gradient(rgba(0,0,0,0) 0 2px, rgba(0,0,0,.22) 2px 3px); }
-@media (max-width: 700px) { #sv-boot { font-size: 9px; } }
+@media (max-width: 700px) { #sv-boot { font-size: 8px; } #sv-boot .sv-crt { padding: 16px; } }
 </style>
 '''
 BOOT_HTML = r'''<div id="sv-boot" role="status" aria-label="Loading The Sericum Via">
