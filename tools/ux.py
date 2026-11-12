@@ -54,6 +54,8 @@ tw-link, .enchantment-link { color: #1f6f8b; }
 tw-link:hover, .enchantment-link:hover { color: #b5651d; }
 tw-story i, tw-story em { color: #1f6f8b; }
 /* compact layout so a page fits on one screen */
+/* the box sits in the middle of the screen instead of sticking to the top */
+tw-story { min-height: 100vh; justify-content: center; }
 tw-story { padding: 3vh 12%; font-size: 15px; }
 tw-passage { overflow-wrap: break-word; padding: 18px 26px; }
 /* centred pictures; the script below sizes them to the free space on screen */
@@ -134,7 +136,8 @@ SCRIPT = r'''<script role="script" id="twine-user-script" type="text/twine-javas
     imgs.forEach(function (i) { i.style.maxHeight = 'none'; i.style.width = 'auto'; i.style.height = '40px'; });
     var ps = getComputedStyle(p), story = document.querySelector('tw-story');
     var padB = story ? parseFloat(getComputedStyle(story).paddingBottom) || 0 : 0;
-    var rest = p.getBoundingClientRect().bottom + window.scrollY + padB - 40 * imgs.length;
+    var padT = story ? parseFloat(getComputedStyle(story).paddingTop) || 0 : 0;
+    var rest = p.offsetHeight + padT + padB - 40 * imgs.length;   /* height of everything except the pictures */
     var share = (window.innerHeight - rest - 10) / imgs.length;
     var cw = p.clientWidth - parseFloat(ps.paddingLeft) - parseFloat(ps.paddingRight);
     imgs.forEach(function (i) {
