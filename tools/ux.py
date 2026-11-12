@@ -43,7 +43,13 @@ html, body { background: #fff; }
 tw-story { padding: 3vh 12%; font-size: 15px; }
 tw-passage { overflow-wrap: break-word; padding: 18px 26px; }
 /* centred pictures; the script below sizes them to the free space on screen */
-tw-passage img { display: block; margin: 6px auto; width: auto; height: auto; max-width: 100%; max-height: 32vh; image-rendering: pixelated; }
+tw-passage img { display: block; margin: 6px auto; width: auto; height: auto; max-width: 100%; max-height: 32vh; image-rendering: pixelated;
+  opacity: 0; transition: opacity .4s ease-out; }
+tw-passage img.sv-ready { opacity: 1; }
+/* each new page fades in softly instead of appearing all at once */
+@keyframes sv-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+tw-passage { animation: sv-in .45s ease-out both; }
+@media (prefers-reduced-motion: reduce) { tw-passage { animation: none; } tw-passage img { transition: none; } }
 tw-passage img[alt="1"], tw-passage img[alt="2"], tw-passage img[alt="E"], tw-passage img[alt^="Screen-Shot"],
 tw-passage img[alt^="Ghofrani"], tw-passage img[alt="vuuranimatie2"], tw-passage img:not([alt]) { image-rendering: auto; }
 tw-passage img + br, tw-passage br:has(+ img) { display: none; }
@@ -91,6 +97,8 @@ SCRIPT = r'''<script role="script" id="twine-user-script" type="text/twine-javas
   function addBack() {
     var p = document.querySelector('tw-passage');
     if (!p || p.querySelector('.sv-back') || !canGoBack()) return;
+    var home = p.querySelector('.sv-bar');
+    if (home && !home.querySelector('tw-link')) return;  /* home page: the header has no Home link, and no Back either */
     var b = document.createElement('button');
     b.type = 'button'; b.className = 'sv-back'; b.title = 'Back (Esc)';
     b.textContent = '◀ Back';
@@ -121,8 +129,17 @@ SCRIPT = r'''<script role="script" id="twine-user-script" type="text/twine-javas
       var maxH = Math.min(byWidth, window.innerHeight * 0.55, nh * grow);
       var minH = Math.min(nh, byWidth, 160);
       i.style.height = Math.round(Math.max(minH, Math.min(share, maxH))) + 'px';
+      i.classList.add('sv-ready');  /* fade in only once sized, so nothing jumps */
     });
   }
+  function showAnyway() { Array.prototype.forEach.call(document.querySelectorAll('tw-passage img'), function (i) { i.classList.add('sv-ready'); }); }
+  /* Preload every picture of the game in the background, so later pages open without waiting. */
+  function preloadAll() {
+    var sd = document.querySelector('tw-storydata'); if (!sd) return;
+    var seen = {}, rx = /src=(?:"|&quot;)(assets\/[^"&]+)/g, m;
+    while ((m = rx.exec(sd.innerHTML))) { if (!seen[m[1]]) { seen[m[1]] = 1; new Image().src = m[1]; } }
+  }
+  setTimeout(preloadAll, 800);
   var fitTimer;
   function scheduleFit() { clearTimeout(fitTimer); fitTimer = setTimeout(fitImages, 30); }
   window.addEventListener('resize', scheduleFit);
@@ -130,9 +147,10 @@ SCRIPT = r'''<script role="script" id="twine-user-script" type="text/twine-javas
     addBack();
     links().forEach(function (l) { if (!l.hasAttribute('tabindex')) l.setAttribute('tabindex', '0'); });
     Array.prototype.forEach.call(document.querySelectorAll('tw-passage img'), function (i) {
-      if (!i.svFit) { i.svFit = true; i.addEventListener('load', scheduleFit); }
+      if (!i.svFit) { i.svFit = true; i.addEventListener('load', scheduleFit); i.addEventListener('error', showAnyway); }
     });
     scheduleFit();
+    clearTimeout(prep.safety); prep.safety = setTimeout(showAnyway, 2500);  /* never leave a picture hidden */
   }
   new MutationObserver(function (muts) {
     prep();
