@@ -1,0 +1,17 @@
+cover-1600x1000.png: The Sericum Via I in a browser window, asking which of four climatic zones of Iran to start in, above a pixel map of Iran's Silk Road routes and caravanserais.
+gallery-season-1200x750.png: The season choice for the cold and mountainous zone, where Winter, Fall, Spring or Summer changes how hard the journey gets.
+gallery-journey-1200x750.png: The journey map, where a yellow point marks the traveller's position with 17 km left to the next caravanserai.
+gallery-ending-1200x750.png: The end of a journey: 650 coins, 8 food packages, 1 saffron package, 70 health and 64 days left, for a score of 1668.
+phone-1080x1920.png: The season choice for the cold and mountainous zone on a phone, with the pixel map of Iran and the four seasons.
+source-screenshots/desktop-01-climatic-zone-map.png: Raw desktop capture of the climatic zone choice with the map of Iran's Silk Road routes.
+source-screenshots/desktop-02-season-choice.png: Raw desktop capture of the season choice for the cold and mountainous zone.
+source-screenshots/desktop-03-route-choice.png: Raw desktop capture of the route choice between the Virani Ribat and Nezamodoleh caravanserais.
+source-screenshots/desktop-04-map-yellow-point.png: Raw desktop capture of the journey map with the traveller's current location in yellow.
+source-screenshots/desktop-05-ending-score.png: Raw desktop capture of the final score screen, showing a score of 1668.
+source-screenshots/desktop-06-saffron-trader.png: Raw desktop capture of Rajab the farmer offering Iranian saffron for trade.
+source-screenshots/phone-01-season-choice.png: Raw phone capture of the season choice for the cold and mountainous zone.
+source-screenshots/phone-02-climatic-zone-map.png: Raw phone capture of the climatic zone choice with the map of Iran.
+card-1200x750.png: The game's pixel camel and merchant walking across its pixel map of Iran, with the Silk Road routes glowing faintly in gold between red caravanserai markers.
+og-1200x630.png: The pixel camel and merchant crossing the game's pixel map of Iran on parchment, with its caravanserai routes picked out in gold.
+store-720x720.png: The game's painted cover art of a Safavid-style caravanserai gate with a camel caravan and travellers passing in front, on parchment.
+icon-192x192.png: The game's pixel camel standing beside its merchant on a plain parchment square.

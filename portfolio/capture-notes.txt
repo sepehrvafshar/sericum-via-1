@@ -1,0 +1,54 @@
+The Sericum Via I: portfolio image capture notes
+
+Date: 2026-11-11
+Build: github.com/sepehrvafshar/sericum-via-1, commit 5f62c037c4cae7e979fbc9916e101d4af33a795e (main),
+       the same build deployed at https://sericumvia1.sepafshar.com
+Captured from: the site/ folder of that commit, served locally (http://localhost)
+Browser: Google Chrome, headless (new headless mode), English (en-US), no dev tools, no cursor, no scrollbars
+
+Viewports
+- Desktop: 1440 x 900 CSS px at device scale 2 -> 2880 x 1800 PNG
+- Phone: 390 x 844 CSS px at device scale 3 -> 1170 x 2532 PNG, iPhone user agent, touch events enabled.
+  Headless Chrome will not make a window narrower than about 500 px, so the page ran inside an exact
+  390 x 844 frame and the screenshot was cropped to that frame. The page saw a true 390 px viewport.
+
+How the screens were reached
+- The game was played by clicking its own links in order (for example Travel, Continue, Continue,
+  1.Cold and mountainous ...). A small capture-only script did the clicking. It also skipped the
+  once-per-session loading screen and turned off the page fade-in, so no frame was caught mid-fade.
+- Game text, maps, images and numbers were not changed. Every number shown comes from that play-through.
+- The ending path: Fall, Turkey, bought 10 food, Green route, bought 1 saffron, looked around at the
+  river, rented a boat, reached the caravanserai. Final screen: 650 coins, 8 food, 1 saffron,
+  70 health, 64 days left, score 1668.
+
+Files
+- cover-1600x1000.png           framed screenshot (desktop-01, climatic zone map) in a plain browser frame on parchment
+- gallery-season-1200x750.png   framed screenshot (desktop-02, season choice)
+- gallery-journey-1200x750.png  framed screenshot (desktop-04, journey map with the yellow location point)
+- gallery-ending-1200x750.png   framed screenshot (desktop-05, final score)
+- phone-1080x1920.png           framed screenshot (phone-01, season choice) in a plain phone frame on parchment
+- source-screenshots/           raw captures, unedited
+- card-1200x750.png, og-1200x630.png, store-720x720.png, icon-192x192.png: key art, see "Key art" below.
+
+Frames
+- The browser and phone frames are drawn plainly, with no text, no URL and no logos. The address bar is left blank.
+- The parchment background is generated (grain, soft sepia stains, faint fibres, vignette), with no text.
+- Every screenshot sits inside the central 80% of its image (at least 10% margin on each side).
+
+Key art (added 2026-11-11; composited only from the game's own artwork, nothing invented, no text)
+Built with Python and Pillow (_tools/keyart.py). Pixel art is used at 1x or exactly 1/2, nearest-neighbour only.
+- card-1200x750.png   KEY ART. Built from: source/assets/main-map.png (pixel map of Iran, used at 1x; the white
+                      background made transparent, the grey route lines recoloured gold with a soft gold glow behind
+                      them, land colours softened 22% toward parchment; red caravanserai markers unchanged) and
+                      source/assets/man-cammel.png (pixel camel and merchant, 1x), on the generated parchment
+                      used for the screenshot frames, with a soft shadow under the sprite.
+- og-1200x630.png     KEY ART. Same layers and scale as the card, on a wider 1.9:1 parchment.
+- store-720x720.png   KEY ART. Built from: The Sericum Via 1.png (painted cover art, 1024x1024). The title
+                      "Iran's Caravanserais", the map labels (Tabriz, Ardebil, Qazvin, Hamadan, Ispahan, Iran) and
+                      the dotted route were removed by refilling those areas from the surrounding paper only (no
+                      drawing added). Cropped to the left caravanserai and the caravan (cover pixels x 0-588,
+                      y 430-1024), resized to 554x560 (smooth resampling, as it is painted art, not pixel art), and
+                      faded at the edges into parchment tinted to the cover's own paper colour.
+- icon-192x192.png    KEY ART. Built from: source/assets/man-cammel.png at exactly 1/2 size, nearest-neighbour
+                      (106x109), centred on plain parchment. Checked at 192, 64 and 32 px.
+All four keep their subject inside the central 80%. Card/OG and store are different compositions.

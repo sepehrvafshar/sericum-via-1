@@ -53,3 +53,15 @@ Live at **https://sericumvia1.sepafshar.com** (also https://sericum-via-1.pages.
 - Framework preset: None
 - Build command: none
 - Build output directory: `site`
+
+## Portfolio images
+
+`portfolio/` has the portfolio images:
+
+- Framed screenshots of the real game.
+- Key art built only from the game's own artwork.
+- The raw captures.
+- `captions.txt`, which holds the alt text.
+- `capture-notes.txt`, which explains how each image was made.
+
+The scripts that build them are in `portfolio/_tools/`. This folder is not part of the published site.
