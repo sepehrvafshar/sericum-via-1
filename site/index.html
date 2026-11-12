@@ -89,14 +89,16 @@ tw-link:focus-visible { outline: 2px dashed orange; outline-offset: 3px; }
   text-shadow: none; transition: color .3s ease-in-out, border-color .3s ease-in-out; }
 .sv-back:hover, .sv-back:focus-visible, .sv-bar tw-link:hover, .sv-bar tw-link:focus-visible { color: orange; border-color: orange; outline: none; }
 /* About page: small text in separate cards */
-.sv-about { font-size: 0.72em; line-height: 1.75; text-shadow: none; }
-.sv-card { background: rgba(255,255,255,0.75); border: 2px groove gray; border-radius: 14px; padding: 10px 14px; margin: 0 0 10px; }
+.sv-about { font-size: 0.72em; line-height: 1.75; text-shadow: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+.sv-about > .sv-card:first-child, .sv-about > .sv-card:last-child { grid-column: 1 / -1; }
+.sv-card { background: rgba(255,255,255,0.75); border: 2px groove gray; border-radius: 14px; padding: 8px 14px; margin: 0; }
 .sv-h { color: darkgreen; text-shadow: 1px 1px lightgreen; font-size: 1.15em; margin-bottom: 6px; }
 .sv-dim { color: gray; margin-top: 6px; }
 .sv-award { color: #b8860b; margin-top: 6px; }
 .sv-ext { display: inline-block; margin-top: 4px; }
 .sv-row { margin: 4px 0; }
 .sv-k { display: block; color: gray; font-size: 0.85em; }
+@media (max-width: 900px) { .sv-about { grid-template-columns: 1fr; } }
 @media (max-width: 700px) {
   tw-story { padding: 12px 10px; font-size: 12px; }
   tw-passage { padding: 14px; border-width: 3px; border-radius: 16px; }
@@ -407,11 +409,8 @@ Coin: $coin , Food: $food
 
 
 
-[[Continue|Story2]]</tw-passagedata><tw-passagedata pid="30" name="Learn about the game theory" tags="" position="699,200" size="100,100">This serious game is aimed to contribute to the preservation of Iran heritage. The essential goal is to conserve the information related to the Safavid caravanserais of Iran on the Silk Road by conveying it to as many people as possible. Hence, we have tried to transmit to the player its intangible heritage, such as the use of the Silk Road as a commercial route, the circumstances and threats that merchants faced, and the purpose of caravanserais, besides other values of Iran like ceremonies, poems, etc. The climatic zones of Iran are among the other things the player learns about by playing.
-
-[[Continue |Learn1.1]] 
-
-[[Back to Main menu|Welcome to Sericum Via]]</tw-passagedata><tw-passagedata pid="31" name="StageTurkeyHard" tags="" position="1604,1698" size="200,100">$coin coins | $food food packages | $health health | $gamedayTurkeyHard days left
+[[Continue|Story2]]</tw-passagedata><tw-passagedata pid="30" name="Learn about the game theory" tags="" position="699,200" size="100,100">&lt;div class=&quot;sv-about&quot;&gt;&lt;div class=&quot;sv-card&quot;&gt;&lt;div class=&quot;sv-h&quot;&gt;About the game&lt;/div&gt;This serious game aims to contribute to the preservation of Iran&#x27;s heritage by bringing information on the Safavid caravanserais of the Silk Road to as many people as possible. It conveys their intangible heritage too: the Silk Road as a trade route, the dangers merchants faced, the role of caravanserais, and other values of Iran such as ceremonies and poems. Players also learn about the climatic zones of Iran along the way.&lt;/div&gt;&lt;div class=&quot;sv-card&quot;&gt;&lt;div class=&quot;sv-h&quot;&gt;How to play&lt;/div&gt;Deliver cargoes of silk from Iran to a neighboring country on the Silk Road within a limited time. Choose your season, shop for the journey, and use the shortest routes calculated with GIS as a bonus.&lt;div class=&quot;sv-dim&quot;&gt;Alpha version: playable but incomplete.&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;sv-card&quot;&gt;&lt;div class=&quot;sv-h&quot;&gt;Paper&lt;/div&gt;Eshaghi, S., Vaez Afshar, S. &amp;amp; Varinlioğlu, G. (2021). &lt;i&gt;The Sericum Via: A Serious Game for Preserving Tangible and Intangible Heritage of Iran.&lt;/i&gt; ASCAAD 2021, Cairo (online), pp. 306–316.&lt;div class=&quot;sv-award&quot;&gt;★ Best Presentation Award&lt;/div&gt;&lt;a class=&quot;sv-ext&quot; href=&quot;https://papers.cumincad.org/cgi-bin/works/Show?ascaad2021_124&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Read the paper on CumInCAD&lt;/a&gt;&lt;/div&gt;&lt;div class=&quot;sv-card&quot;&gt;&lt;div class=&quot;sv-h&quot;&gt;Team&lt;/div&gt;&lt;div class=&quot;sv-row&quot;&gt;&lt;span class=&quot;sv-k&quot;&gt;Design &amp;amp; development&lt;/span&gt;Sepehr Vaez Afshar &amp;amp; Sarvin Eshaghi&lt;/div&gt;&lt;div class=&quot;sv-row&quot;&gt;&lt;span class=&quot;sv-k&quot;&gt;Co-author&lt;/span&gt;Assoc. Prof. Dr. Güzden Varinlioğlu&lt;/div&gt;&lt;div class=&quot;sv-row&quot;&gt;&lt;span class=&quot;sv-k&quot;&gt;Made at&lt;/span&gt;Architectural Design Computing PhD program, Istanbul Technical University, 2020&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+[[Start the new game|Stage1]] &amp;nbsp;·&amp;nbsp; [[Back to Main menu|Welcome to Sericum Via]]</tw-passagedata><tw-passagedata pid="31" name="StageTurkeyHard" tags="" position="1604,1698" size="200,100">$coin coins | $food food packages | $health health | $gamedayTurkeyHard days left
 -----------------------------------------------------
 Well then! You&#x27;re ready to start. Good luck!
 You have a long and difficult journey ahead of you.

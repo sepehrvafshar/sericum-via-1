@@ -60,14 +60,16 @@ tw-link:focus-visible { outline: 2px dashed orange; outline-offset: 3px; }
   text-shadow: none; transition: color .3s ease-in-out, border-color .3s ease-in-out; }
 .sv-back:hover, .sv-back:focus-visible, .sv-bar tw-link:hover, .sv-bar tw-link:focus-visible { color: orange; border-color: orange; outline: none; }
 /* About page: small text in separate cards */
-.sv-about { font-size: 0.72em; line-height: 1.75; text-shadow: none; }
-.sv-card { background: rgba(255,255,255,0.75); border: 2px groove gray; border-radius: 14px; padding: 10px 14px; margin: 0 0 10px; }
+.sv-about { font-size: 0.72em; line-height: 1.75; text-shadow: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+.sv-about > .sv-card:first-child, .sv-about > .sv-card:last-child { grid-column: 1 / -1; }
+.sv-card { background: rgba(255,255,255,0.75); border: 2px groove gray; border-radius: 14px; padding: 8px 14px; margin: 0; }
 .sv-h { color: darkgreen; text-shadow: 1px 1px lightgreen; font-size: 1.15em; margin-bottom: 6px; }
 .sv-dim { color: gray; margin-top: 6px; }
 .sv-award { color: #b8860b; margin-top: 6px; }
 .sv-ext { display: inline-block; margin-top: 4px; }
 .sv-row { margin: 4px 0; }
 .sv-k { display: block; color: gray; font-size: 0.85em; }
+@media (max-width: 900px) { .sv-about { grid-template-columns: 1fr; } }
 @media (max-width: 700px) {
   tw-story { padding: 12px 10px; font-size: 12px; }
   tw-passage { padding: 14px; border-width: 3px; border-radius: 16px; }

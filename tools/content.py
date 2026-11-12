@@ -52,6 +52,20 @@ m = rx.search(src)
 text = html.unescape(m.group(2))
 assert text.count(OLD) == 1, 'Learn1.1 text not found'
 src = src[:m.start(2)] + html.escape(text.replace(OLD, NEW), quote=True) + src[m.end(2):]
+
+# One Learn page: the "game theory" intro plus How to play / Paper / Team, no Continue step.
+ABOUT_CARD = ('<div class="sv-card"><div class="sv-h">About the game</div>'
+              'This serious game aims to contribute to the preservation of Iran\'s heritage by bringing information on the '
+              'Safavid caravanserais of the Silk Road to as many people as possible. It conveys their intangible heritage too: '
+              'the Silk Road as a trade route, the dangers merchants faced, the role of caravanserais, and other values of Iran '
+              'such as ceremonies and poems. Players also learn about the climatic zones of Iran along the way.</div>')
+assert NEW.startswith('<div class="sv-about">')
+LEARN = (NEW.replace('<div class="sv-about">', '<div class="sv-about">' + ABOUT_CARD, 1)
+         + '\n[[Start the new game|Stage1]] &nbsp;·&nbsp; [[Back to Main menu|Welcome to Sericum Via]]')
+rx = re.compile(r'(<tw-passagedata[^>]*\bname="Learn about the game theory"[^>]*>)(.*?)(</tw-passagedata>)', re.S)
+m = rx.search(src)
+assert '[[Continue |Learn1.1]]' in html.unescape(m.group(2)), 'learn intro not found'
+src = src[:m.start(2)] + html.escape(LEARN, quote=True) + src[m.end(2):]
 # Main menu: High scores / Game options were empty placeholder pages
 MENU_OLD = "[[Learn about the Sericum Via (R)|Learn about the game theory]]\n\n[[Game options|Option]]\n\n[[High scores]]<br />"
 MENU_NEW = "[[Learn about the Sericum Via (R)|Learn about the game theory]]<br />"
