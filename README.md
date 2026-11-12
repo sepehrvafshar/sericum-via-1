@@ -1,6 +1,6 @@
-# The Sericum Via
+# The Sericum Via 1
 
-*Journey along the Silk Road.* A text-based serious game about the Safavid caravanserais on Iran's Silk Roads, made with Twine (Harlowe 3.1) in 2020.
+*Journey along the Silk Road.* Part 1 of the Sericum Via series: a text-based serious game about the Safavid caravanserais on Iran's Silk Roads, made with Twine (Harlowe 3.1) in 2020.
 
 **Paper:** Eshaghi, S., Vaez Afshar, S. & Varinlioğlu, G. (2021). *The Sericum Via: A Serious Game for Preserving Tangible and Intangible Heritage of Iran.* ASCAAD 2021, Cairo (online), pp. 306–316. **Best Presentation Award.** [CumInCAD](https://papers.cumincad.org/cgi-bin/works/Show?ascaad2021_124)
 
