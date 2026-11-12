@@ -65,3 +65,14 @@ Live at **https://sericumvia1.sepafshar.com** (also https://sericum-via-1.pages.
 - `capture-notes.txt`, which explains how each image was made.
 
 The scripts that build them are in `portfolio/_tools/`. This folder is not part of the published site.
+
+## Search engines
+
+`tools/seo.py` handles what search engines need:
+
+- It adds a canonical link and Open Graph tags to the page.
+- It writes `robots.txt` and `sitemap.xml`. The sitemap date comes from git.
+- It writes a `_headers` file, which fixes the content types of those two files.
+- It copies the share image to `og-image.png`.
+
+`functions/_middleware.js` sends the old `*.pages.dev` addresses to the main address with a 301 redirect.

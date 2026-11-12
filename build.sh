@@ -10,6 +10,7 @@ python3 -I tools/patch.py site/index.html       # step 2: game-logic fixes
 python3 -I tools/spelling.py site/index.html    # step 3: spelling and grammar
 python3 -I tools/content.py site/index.html     # Learn page + main menu
 python3 -I tools/ux.py site/index.html source/fonts source/icon.png   # layout, Back button, image sizing
+python3 -I tools/seo.py site https://sericumvia1.sepafshar.com "The Sericum Via I" portfolio/og-1200x630.png   # search engines
 if [ "$1" = "--single" ]; then
   mkdir -p dist
   python3 -I tools/singlefile.py site dist/Sericum_Via_single_file.html

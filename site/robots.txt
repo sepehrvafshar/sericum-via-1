@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sericumvia1.sepafshar.com/sitemap.xml
